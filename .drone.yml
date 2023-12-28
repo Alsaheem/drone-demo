@@ -37,3 +37,15 @@ steps:
       - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
       - docker build -t alsaheem/healthchecker . -f drone_plugins/healthchecker/Dockerfile
       - docker push alsaheem/healthchecker
+
+services:
+- name: docker
+  image: docker:dind
+  privileged: true
+  volumes:
+  - name: dockersock
+    path: /var/run
+
+volumes:
+- name: dockersock
+  temp: {}
