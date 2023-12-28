@@ -1,0 +1,15 @@
+kind: pipeline
+type: docker
+name: plugin deployment manager
+
+steps:
+
+  - name: deploy-bash-plugin
+    image: docker:dind # public docker image
+    commands:
+      - echo "The deploys the bash plugin"
+
+  - name: deploy-python-plugin
+    image: docker:dind # public docker image
+    commands:
+      - echo "The deploys the python plugin"
