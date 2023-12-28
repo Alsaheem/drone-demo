@@ -6,12 +6,16 @@ steps:
 
   - name: deploy-bash-plugin
     image: docker:dind # public docker image
+    volumes:
+    - name: dockersock
+      path: /var/run
     environment:
       DOCKER_USERNAME:
         from_secret: docker_username
       DOCKER_PASSWORD:
         from_secret: docker_password
     commands:
+      - sleep 5 # give docker enough time to start
       - echo "The deploys the bash plugin"
       - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
       - docker build -t alsaheem/webhook . -f drone_plugins/bash_plugin/Dockerfile
@@ -19,12 +23,16 @@ steps:
 
   - name: deploy-python-plugin
     image: docker:dind # public docker image
+    volumes:
+    - name: dockersock
+      path: /var/run
     environment:
       DOCKER_USERNAME:
         from_secret: docker_username
       DOCKER_PASSWORD:
         from_secret: docker_password
     commands:
+      - sleep 5 # give docker enough time to start
       - echo "The deploys the python plugin"
       - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
       - docker build -t alsaheem/healthchecker . -f drone_plugins/healthchecker/Dockerfile
