@@ -17,6 +17,7 @@ steps:
     commands:
       - sleep 5 # give docker enough time to start
       - echo "The deploys the bash plugin"
+      - cd drone_plugins/bash_plugin
       - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
       - DOCKER_BUILDKIT=1 docker build -t alsaheem/webhook . -f drone_plugins/bash_plugin/Dockerfile
       - DOCKER_BUILDKIT=1 docker push alsaheem/webhook
@@ -34,8 +35,9 @@ steps:
     commands:
       - sleep 5 # give docker enough time to start
       - echo "The deploys the python plugin"
+      - cd drone_plugins/healthchecker
       - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-      - DOCKER_BUILDKIT=1 docker build -t alsaheem/healthchecker . -f drone_plugins/healthchecker/Dockerfile
+      - DOCKER_BUILDKIT=1 docker build -t alsaheem/healthchecker .
       - DOCKER_BUILDKIT=1 docker push alsaheem/healthchecker
 
 services:
