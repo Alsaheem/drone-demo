@@ -1,0 +1,11 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+
+  - name: test-drone-plugin
+    image: alsaheem/healthchecker # public docker image
+    settings:
+      health_url: https://wallet-api-qa.yassir.io/api/v1/actuator/health
+      pass_num: 20
