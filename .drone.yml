@@ -18,8 +18,8 @@ steps:
       - sleep 5 # give docker enough time to start
       - echo "The deploys the bash plugin"
       - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-      - docker build -t alsaheem/webhook . -f drone_plugins/bash_plugin/Dockerfile
-      - docker push alsaheem/webhook
+      - DOCKER_BUILDKIT=1 docker build -t alsaheem/webhook . -f drone_plugins/bash_plugin/Dockerfile
+      - DOCKER_BUILDKIT=1 docker push alsaheem/webhook
 
   - name: deploy-python-plugin
     image: docker:dind # public docker image
@@ -35,17 +35,23 @@ steps:
       - sleep 5 # give docker enough time to start
       - echo "The deploys the python plugin"
       - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-      - docker build -t alsaheem/healthchecker . -f drone_plugins/healthchecker/Dockerfile
-      - docker push alsaheem/healthchecker
+      - DOCKER_BUILDKIT=1 docker build -t alsaheem/healthchecker . -f drone_plugins/healthchecker/Dockerfile
+      - DOCKER_BUILDKIT=1 docker push alsaheem/healthchecker
 
 services:
-- name: docker
-  image: docker:dind
-  privileged: true
-  volumes:
-  - name: dockersock
-    path: /var/run
+  - name: docker
+    image: docker:dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
 
 volumes:
-- name: dockersock
-  temp: {}
+  - name: dockersock
+    temp: {}
+
+trigger:
+  branch:
+    - main
+  event:
+    - push
