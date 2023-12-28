@@ -20,7 +20,7 @@ steps:
       - ls
       - cd drone_plugins/bash_plugin
       - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-      - DOCKER_BUILDKIT=1 docker build -t alsaheem/webhook . -f drone_plugins/bash_plugin/Dockerfile
+      - DOCKER_BUILDKIT=1 docker build -t alsaheem/webhook .
       - DOCKER_BUILDKIT=1 docker push alsaheem/webhook
 
   # - name: deploy-python-plugin
