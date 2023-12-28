@@ -23,23 +23,23 @@ steps:
       - DOCKER_BUILDKIT=1 docker build -t alsaheem/webhook .
       - DOCKER_BUILDKIT=1 docker push alsaheem/webhook
 
-  # - name: deploy-python-plugin
-  #   image: docker:dind # public docker image
-  #   volumes:
-  #   - name: dockersock
-  #     path: /var/run
-  #   environment:
-  #     DOCKER_USERNAME:
-  #       from_secret: docker_username
-  #     DOCKER_PASSWORD:
-  #       from_secret: docker_password
-  #   commands:
-  #     - sleep 5 # give docker enough time to start
-  #     - echo "The deploys the python plugin"
-  #     - cd drone_plugins/healthchecker
-  #     - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-  #     - DOCKER_BUILDKIT=1 docker build -t alsaheem/healthchecker .
-  #     - DOCKER_BUILDKIT=1 docker push alsaheem/healthchecker
+  - name: deploy-python-plugin
+    image: docker:dind # public docker image
+    volumes:
+    - name: dockersock
+      path: /var/run
+    environment:
+      DOCKER_USERNAME:
+        from_secret: docker_username
+      DOCKER_PASSWORD:
+        from_secret: docker_password
+    commands:
+      - sleep 5 # give docker enough time to start
+      - echo "The deploys the python plugin"
+      - cd drone_plugins/healthchecker
+      - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+      - DOCKER_BUILDKIT=1 docker build -t alsaheem/healthchecker .
+      - DOCKER_BUILDKIT=1 docker push alsaheem/healthchecker
 
 services:
   - name: docker
